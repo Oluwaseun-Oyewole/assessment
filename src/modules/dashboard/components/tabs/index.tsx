@@ -12,6 +12,7 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React, { ReactNode, useState } from "react";
+import Naira from "../../../../assets/svg/naira.svg";
 
 export type TabType = {
   id: number;
@@ -61,8 +62,12 @@ const TabComponent: React.FC<TabProp> = ({ tabs }) => {
               ...
             </MenuButton>
             <MenuList>
-              <MenuItem fontSize={"small"}>Expenses Category</MenuItem>
-              <MenuItem fontSize={"small"}>Category Overview</MenuItem>
+              <MenuItem fontSize={"small"} className="flex gap-2 items-center">
+                <img src={Naira} /> Expenses Category
+              </MenuItem>
+              <MenuItem fontSize={"small"} className="flex gap-2">
+                <img src={Naira} /> Category Overview
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>
