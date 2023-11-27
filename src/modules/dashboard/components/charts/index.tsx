@@ -28,14 +28,19 @@ export const ChartComponent: FC<Props> = ({
 }) => {
   const options = {
     dataLabels: {
-      enabled: false,
-      formatter: function (val: string | number) {
-        return val + "%";
+      enabled: true,
+      formatter: function (val: number) {
+        return val.toFixed(0) + "%";
+      },
+
+      style: {
+        fontSize: "12px",
+        fontFamily: "Poppins",
       },
     },
     chart: {
       id: id,
-      width: 200,
+      width: 300,
     },
     labels: label,
 
@@ -50,9 +55,23 @@ export const ChartComponent: FC<Props> = ({
         "rgba(200, 4, 98, 1)",
       ],
     },
-    aspectRatio: 0.2,
+
     legend: {
       show: true,
+      fontSize: "12px",
+      fontFamily: "Poppins",
+      markers: {
+        width: 12,
+        height: 12,
+        strokeWidth: 0,
+        strokeColor: "#fff",
+        fillColors: undefined,
+        radius: 12,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
   };
 

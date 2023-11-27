@@ -23,7 +23,7 @@ const Budget = () => {
 
     return (
       <div>
-        <div className="">
+        <div>
           <ChartComponent
             id="chart"
             type="donut"
@@ -82,7 +82,7 @@ const Budget = () => {
 
   const CategoryBreakDown = () => {
     return (
-      <div className="py-4">
+      <div className="py-4  lg:mb-0">
         <Text fontSize="xl" fontWeight={"500"} py={6}>
           Category Breakdown
         </Text>
@@ -115,7 +115,7 @@ const Budget = () => {
 
   return (
     <div>
-      <div className="flex py-1 space-x-10 overflow-x-scroll whitespace-nowrap no-scrollbar">
+      <div className="flex py-1 space-x-10 ">
         {dashboardCards?.map((order) => {
           return (
             <div key={order.id} className="px-1 py-3.5 w-full lg:w-[30%]">

@@ -7,3 +7,21 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+@layer components {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .navbarLi {
+    @apply duration-300 cursor-pointer hover:text-primaryColor;
+  }
+}
+
+::-webkit-scrollbar {
+  height: 1px;
+}
