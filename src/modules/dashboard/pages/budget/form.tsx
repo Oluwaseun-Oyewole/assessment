@@ -184,6 +184,8 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
     return Number((value / total) * 100)?.toFixed(2);
   };
 
+  const remaining = amount - total;
+
   const renderForm = () => {
     if (currentStep === 1) {
       return (
@@ -252,9 +254,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                     className="!border-none !outline-none !h-[50px] !shadow-md"
                     variant="outline"
                   >
-                    <option value="Savings">
-                      {ImageUpload("Savings")}Savings
-                    </option>
+                    <option value="Savings">Savings</option>
                     <option value="Food">Food and Drinks</option>
                     <option value="Calls">Calls</option>
                     <option value="Transport">Transport</option>
@@ -272,13 +272,27 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                     className="rounded-sm"
                   />
                   {parseInt(formik.values.individualAmount) > amount && (
-                    <small className="text-red-500">{`Amount must be less than ${amount}`}</small>
+                    <small className="text-red-600">{`Amount must be less than ${formatCurrency(
+                      Number(amount),
+                      `\u20A6`
+                    )}`}</small>
                   )}
 
                   {Number(
                     Number(total) + Number(formik.values.individualAmount)
-                  ) >= Number(amount) && (
-                    <small className="text-red-500">{`Budget amount exceeded ${amount}`}</small>
+                  ) > Number(amount) && (
+                    <Box py="5">
+                      <Flex justifyContent="space-between" alignItems="center">
+                        <small className="text-red-600 block">{`Budget amount exceeded ${formatCurrency(
+                          Number(amount),
+                          `\u20A6`
+                        )}`}</small>
+                        <small className="text-red-600 ">
+                          Amount remaining
+                          {formatCurrency(Number(remaining), `\u20A6`)}
+                        </small>
+                      </Flex>
+                    </Box>
                   )}
 
                   <Box>
@@ -344,20 +358,11 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
       <ModalComponent
         children={
           <Box pt="16" px="6">
-            <Text className="text-center !font-bold" variant="displayXs">
-              {displayHeader()}
-            </Text>
-
+            {displayHeader()}
             <Text fontWeight="bold" fontSize="2xl" marginTop={4}>
               Create new budget
             </Text>
-
-            <Text
-              className="text-left !text-gray-body tracking-[0.75px]"
-              variant="textXs"
-            >
-              {displaySubHeading()}
-            </Text>
+            {displaySubHeading()}
             {renderForm()}
           </Box>
         }

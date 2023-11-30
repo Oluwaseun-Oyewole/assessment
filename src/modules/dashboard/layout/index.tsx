@@ -7,7 +7,7 @@ import Sidebar from "../components/sidebar";
 const DashboardLayout = () => {
   return (
     <>
-      <Box className="flex font-raleway flex-col lg:flex-row w-full h-screen bg-white">
+      <Box className="flex font-raleway flex-col h-screen lg:flex-row w-full bg-white">
         <Box className="w-1/5 bg-white shadow-xl hidden lg:block">
           <Sidebar />
         </Box>
@@ -15,7 +15,7 @@ const DashboardLayout = () => {
           <Box className="sticky top-0 shadow-md">
             <Header />
           </Box>
-          <Box className="px-10 py-5 lg:py-10 overflow-y-auto">
+          <Box className="lg:px-10 py-5 lg:py-10 overflow-y-scroll">
             <Outlet />
           </Box>
         </Box>

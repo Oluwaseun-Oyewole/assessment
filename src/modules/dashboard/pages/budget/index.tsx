@@ -132,7 +132,7 @@ const Budget = () => {
   ];
 
   return (
-    <Box className="overflow-y-scroll">
+    <Box className="max-h-[calc(100vh-4.75rem)] overflow-y-auto scroll-pt-5">
       <Box className="flex py-1">
         <AccountForm isOpen={isOpen} onClose={onClose} />
         {dashboardCards?.map((order) => {

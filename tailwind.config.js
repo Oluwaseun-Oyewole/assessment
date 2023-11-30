@@ -10,8 +10,7 @@ export default {
         secondary: "rgba(112, 116, 128, 1)",
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        raleway: ["Raleway", "sans-serif"],
+        raleway: ["Lato", "sans-serif"],
       },
     },
   },
