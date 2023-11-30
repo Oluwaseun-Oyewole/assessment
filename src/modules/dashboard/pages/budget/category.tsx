@@ -10,7 +10,7 @@ export const CategoryBreakDown = () => {
 
   return (
     <Box className="py-4  lg:mb-0">
-      <Text fontSize="xl" fontWeight={"500"} py={6}>
+      <Text fontSize="2xl" fontWeight={"600"} py={6}>
         Category Breakdown
       </Text>
       <Box className="flex flex-col gap-5">

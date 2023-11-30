@@ -12,10 +12,10 @@ const DashboardLayout = () => {
           <Sidebar />
         </Box>
         <Box className="w-full flex flex-col">
-          <Box className="sticky top-0 shadow-md">
+          <Box className="sticky top-0 shadow-md z-[100]">
             <Header />
           </Box>
-          <Box className="lg:px-10 py-5 lg:py-10 overflow-y-scroll">
+          <Box className="lg:px-10 py-5 lg:py-10 h-[800px] overflow-y-scroll">
             <Outlet />
           </Box>
         </Box>
