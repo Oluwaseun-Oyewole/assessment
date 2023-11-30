@@ -47,3 +47,15 @@ export const Category: CategoryType[] = [
     total: "24,000",
   },
 ];
+
+type PageTitle = {
+  [key: string]: string;
+};
+
+export const PageTitle: PageTitle = {
+  home: "Home",
+  reports: "Reports",
+  chats: "Chat",
+  budget: "Budget",
+  profile: "Profile",
+};

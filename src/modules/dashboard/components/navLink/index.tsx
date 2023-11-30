@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { NavLink, useLocation } from "react-router-dom";
@@ -56,13 +57,13 @@ export const NavLinkComponent = ({ dataArray, className }: MenuProps) => {
                   }
                 >
                   <>
-                    <div>
+                    <Box>
                       {currentRoute === path ? (
                         <> {iconSolid}</>
                       ) : (
                         <img src={`${icon}`} className={`w-[25px]`} />
                       )}
-                    </div>
+                    </Box>
                     <span>{name}</span>
                   </>
                 </NavLink>

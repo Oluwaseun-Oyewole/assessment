@@ -1,22 +1,44 @@
-import { Text } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { useContext } from "react";
 import { IoMdAdd } from "react-icons/io";
+import Tools from "../../../../assets/svg/Tools.svg";
+import Books from "../../../../assets/svg/books.svg";
+import Calls from "../../../../assets/svg/call.svg";
 import EmptyBudget from "../../../../assets/svg/emptyBudget.svg";
-import { Category, budgetCard } from "../../../../helper/keyConstants";
+import Food from "../../../../assets/svg/food.svg";
+import Savings from "../../../../assets/svg/savings.svg";
+import Transport from "../../../../assets/svg/transport.svg";
+import { formatCurrency } from "../../../../helper";
+import { budgetCard } from "../../../../helper/keyConstants";
 import { ChartComponent } from "../../components/charts";
 import TabComponent from "../../components/tabs";
 import { ContextCreator } from "../../context";
 import { ContextCreatorType } from "../../context/type";
+import { CategoryBreakDown } from "./category";
+import AccountForm from "./form";
+
+export const ImageUpload = (title: string) => {
+  switch (title) {
+    case "Food":
+      return <img src={Food} alt="img" className="w-10 h-10" />;
+    case "Savings":
+      return <img src={Savings} alt="img" className="w-10 h-10" />;
+    case "Transport":
+      return <img src={Transport} alt="img" className="w-10 h-10" />;
+    case "Calls":
+      return <img src={Calls} alt="img" className="w-10 h-10" />;
+    case "Books":
+      return <img src={Books} alt="img" className="w-10 h-10" />;
+    default:
+      return <img src={Tools} alt="img" className="w-10 h-10" />;
+  }
+};
 
 const Budget = () => {
-  const { amount, updateAmount } = useContext(
+  const { amount, categories, total } = useContext(
     ContextCreator
   ) as ContextCreatorType;
-
-  useEffect(() => {
-    updateAmount(0);
-  }, []);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dashboardCards = budgetCard.map((card) => {
     switch (card.id) {
       case 1:
@@ -27,21 +49,25 @@ const Budget = () => {
   });
 
   const ThisMonthData = () => {
-    const series = [20, 4, 20, 35, 12, 8];
-    const labels = ["Transport", "Tools", "Data", "Food", "Books", "Phone"];
+    const valueArray = categories?.map((element) => {
+      return Number(element?.percentage);
+    });
+    const labelArray = categories?.map((element) => {
+      return element?.title;
+    });
 
     return (
       <>
         {amount > 0 ? (
-          <div>
-            <div>
+          <Box>
+            <Box>
               <ChartComponent
                 id="chart"
                 type="donut"
-                series={series}
-                label={labels}
+                series={valueArray}
+                label={labelArray}
               />
-            </div>
+            </Box>
 
             <Text
               className="text-secondary text-center py-6"
@@ -51,13 +77,13 @@ const Budget = () => {
               Amount spent so far
             </Text>
 
-            <div className="flex items-center justify-center ">
+            <Box className="flex items-center justify-center ">
               <Text
                 className="text-primary text-center"
                 fontSize={"large"}
                 fontWeight={"bold"}
               >
-                &#8358; 50,0000
+                {`${formatCurrency(Number(total), `\u20A6`)}`}
               </Text>
               <span className="text-primaryLight"> /</span>
               <Text
@@ -65,13 +91,14 @@ const Budget = () => {
                 fontSize={"large"}
                 fontWeight={"bold"}
               >
-                &#8358;120,000
+                {`${formatCurrency(Number(amount), `\u20A6`)}`}
               </Text>
-            </div>
-          </div>
+            </Box>
+            <CategoryBreakDown />
+          </Box>
         ) : (
-          <div>
-            <div className="flex flex-col gap-7 items-center justify-center pt-10 ">
+          <Box>
+            <Box className="flex flex-col gap-7 items-center justify-center pt-10 ">
               <img src={EmptyBudget} />
               <Text
                 className="text-secondary text-center"
@@ -80,16 +107,15 @@ const Budget = () => {
               >
                 You haven't created a <br /> budget for this month yet
               </Text>
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
-        <CategoryBreakDown />
       </>
     );
   };
 
   const LastMonth = () => {
-    return <div>This Month</div>;
+    return <Box>....</Box>;
   };
 
   const data = [
@@ -105,77 +131,56 @@ const Budget = () => {
     },
   ];
 
-  const CategoryBreakDown = () => {
-    return (
-      <div className="py-4  lg:mb-0">
-        <Text fontSize="xl" fontWeight={"500"} py={6}>
-          Category Breakdown
-        </Text>
-        <div className="flex flex-col gap-5">
-          {Category?.map((category, index) => {
-            return (
-              <div key={index} className="flex justify-between">
-                <div className="flex items-center gap-4">
-                  <img src={`${category.icon}`} />
-                  <div>
-                    <p className="text-base font-semibold">{category.title}</p>
-                    <p className="text-sm text-secondary mt-2">
-                      {category.percentage}
-                    </p>
-                  </div>
-                </div>
-                <p>
-                  &#8358;
-                  <span className="font-semibold">{category.amount}</span> /
-                  &#8358;
-                  <span className="text-secondary">{category.total}</span>
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div>
-      <div className="flex py-1 space-x-10 ">
+    <Box className="overflow-y-scroll">
+      <Box className="flex py-1">
+        <AccountForm isOpen={isOpen} onClose={onClose} />
         {dashboardCards?.map((order) => {
           return (
-            <div key={order.id} className="px-1 py-3.5 w-full lg:w-[40%]">
-              <div className="flex gap-2 items-center">
+            <Box key={order.id} className="px-1 py-5 w-full lg:w-[40%]">
+              <Box className="flex gap-2 items-center">
                 <img src={`${order.icon}`} alt="" />
-                <p className="text-base font-medium font-clash text-secondary">
+                <Text className="text-base font-medium font-clash text-secondary">
                   {order.title}
-                </p>
-              </div>
+                </Text>
+              </Box>
 
-              <div>
-                <div className="mt-2 px-5 py-5 rounded-lg font-semibold font-clash text-heroColor bg-white w-full shadow-md">
+              <Box>
+                <Box className="mt-2 px-5 py-10 rounded-lg font-semibold font-clash text-heroColor bg-white w-full shadow-md">
                   {amount > 0 ? (
-                    <div>
-                      <p className="text-[28px]"> &#8358;{order.amount}</p>
-                    </div>
+                    <Flex justifyContent="space-between" alignItems="center">
+                      <Text className="text-[28px]">
+                        {`${formatCurrency(Number(order?.amount), `\u20A6`)}`}
+                      </Text>
+
+                      <Box
+                        className="bg-primary100 rounded-full h-8 w-8 flex items-center justify-center cursor-pointer"
+                        onClick={onOpen}
+                      >
+                        <IoMdAdd className="text-primary" size={15} />
+                      </Box>
+                    </Flex>
                   ) : (
-                    <div className="flex items-center justify-between">
+                    <Box className="flex items-center justify-between">
                       <Text fontWeight={"medium"}>Create a budget</Text>
-                      <div className="bg-primary100 rounded-full h-8 w-8 flex items-center justify-center cursor-pointer">
-                        <IoMdAdd className="text-primary" size={10} />
-                      </div>
-                    </div>
+                      <Box
+                        className="bg-primary100 rounded-full h-8 w-8 flex items-center justify-center cursor-pointer"
+                        onClick={onOpen}
+                      >
+                        <IoMdAdd className="text-primary" size={15} />
+                      </Box>
+                    </Box>
                   )}
-                </div>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
           );
         })}
-      </div>
-
-      <div className="mt-8">
+      </Box>
+      <Box className="mt-8">
         <TabComponent tabs={data} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

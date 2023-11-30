@@ -1,5 +1,6 @@
+import { Box, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
-import { PageTitle } from "../../../../helper";
+import { PageTitle } from "../../../../helper/keyConstants";
 
 const Header = () => {
   const location = useLocation();
@@ -11,15 +12,15 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex justify-between max-2xl:space-x-2 space-x-3 items-center bg-white px-10">
-        <div className="flex items-center justify-between mx-auto w-full py-7">
-          <div>
-            <h6 className="font-medium text-[28px] md:text-2xl whitespace-nowrap">
+      <Box className="flex justify-between max-2xl:space-x-2 space-x-3 items-center bg-white px-10">
+        <Box className="flex items-center justify-between mx-auto w-full py-7">
+          <Box>
+            <Text className="font-medium text-[28px] md:text-2xl whitespace-nowrap">
               {PageTitle[getTitleEnum as keyof typeof PageTitle]}
-            </h6>
-          </div>
-        </div>
-      </div>
+            </Text>
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 };

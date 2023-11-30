@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Menu,
   MenuButton,
@@ -28,9 +29,9 @@ const TabComponent: React.FC<TabProp> = ({ tabs }) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <div>
+    <Box>
       <Tabs variant={"unstyled"} onChange={(index) => setTabIndex(index)}>
-        <div className="flex items-center justify-between">
+        <Box className="flex items-center justify-between">
           <TabList>
             {tabs.map((tab, index) => (
               <Tab
@@ -70,7 +71,7 @@ const TabComponent: React.FC<TabProp> = ({ tabs }) => {
               </MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </Box>
 
         <TabPanels>
           {tabs.map((tab, index) => (
@@ -80,7 +81,7 @@ const TabComponent: React.FC<TabProp> = ({ tabs }) => {
           ))}
         </TabPanels>
       </Tabs>
-    </div>
+    </Box>
   );
 };
 
