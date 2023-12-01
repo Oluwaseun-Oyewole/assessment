@@ -13,7 +13,7 @@ export const CategoryBreakDown = () => {
       <Text fontSize="2xl" fontWeight={"600"} py={6}>
         Category Breakdown
       </Text>
-      (
+
       <Box className="flex flex-col gap-5">
         {categories?.map((category, index) => {
           return (
@@ -42,7 +42,6 @@ export const CategoryBreakDown = () => {
           );
         })}
       </Box>
-      )
     </Box>
   );
 };
