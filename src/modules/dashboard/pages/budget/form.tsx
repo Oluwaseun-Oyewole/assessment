@@ -322,7 +322,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                     </Flex>
                   </Box>
 
-                  {categories.length > 0 && total < amount && costBreakdown()}
+                  {categories.length > 0 && costBreakdown()}
 
                   <Box className="mt-[100px]">
                     <Flex justifyContent="space-between" alignItems={"center"}>
