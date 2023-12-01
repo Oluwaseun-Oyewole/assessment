@@ -35,11 +35,15 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
   };
 
   const stepOneValidationSchema = Yup.object({
-    amount: Yup.string().required("Please enter amount"),
+    amount: Yup.number()
+      .required("Please enter amount")
+      .typeError("Please enter a valid number"),
   });
 
   const stepTwoValidationSchema = Yup.object({
-    individualAmount: Yup.string().required("Please enter amount"),
+    individualAmount: Yup.number()
+      .required("Please enter amount")
+      .typeError("Please enter a valid number"),
     budgetType: Yup.string().required("Please select a budget"),
   });
 
@@ -133,13 +137,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
       amount: data.individualAmount,
       total: amount,
     });
-    resetForm({
-      id: "",
-      icon: "",
-      title: "",
-      percentage: "",
-      amount: "",
-    });
+    resetForm();
   };
 
   const costBreakdown = () => {
@@ -181,10 +179,11 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
 
   const calculatePercentage = (value: number, total: number) => {
     if (value === 0) return 1 * 100;
-    return Number((value / total) * 100)?.toFixed(2);
+    return Number((value / total) * 100).toFixed(2);
   };
 
   const remaining = amount - total;
+  const percentageRemaining = 100 - Number(calculatePercentage(total, amount));
 
   const renderForm = () => {
     if (currentStep === 1) {
@@ -193,6 +192,9 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
           initialValues={initialValues}
           validationSchema={stepOneValidationSchema}
           onSubmit={handleStepOne}
+          initialTouched={{
+            amount: true,
+          }}
           validateOnMount
         >
           {(formik) => (
@@ -215,7 +217,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                       </Text>
                       <Button
                         type="submit"
-                        disabled={!formik.isValid}
+                        isDisabled={!formik.isValid}
                         isLoading={formik.isSubmitting}
                         className="disabled:cursor-not-allowed !text-primary !bg-transparent"
                       >
@@ -238,6 +240,10 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
           initialValues={categoriesIndividualValues}
           validationSchema={stepTwoValidationSchema}
           onSubmit={handleStepTwo}
+          initialTouched={{
+            individualAmount: true,
+            budgetType: true,
+          }}
           validateOnMount
         >
           {(formik) => {
@@ -300,13 +306,13 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                       <Box>
                         <Button
                           type="submit"
-                          disabled={
+                          isDisabled={
                             !formik.isValid ||
                             parseInt(formik.values.individualAmount) > amount ||
                             Number(
                               Number(total) +
                                 Number(formik.values.individualAmount)
-                            ) >= Number(amount)
+                            ) > Number(amount)
                           }
                           className="disabled:cursor-not-allowed !justify-end !bg-transparent"
                         >
@@ -316,7 +322,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                     </Flex>
                   </Box>
 
-                  {categories.length > 0 && costBreakdown()}
+                  {categories.length > 0 && total < amount && costBreakdown()}
 
                   <Box className="mt-[100px]">
                     <Flex justifyContent="space-between" alignItems={"center"}>
@@ -324,7 +330,7 @@ const AccountForm: React.FC<IAccountType> = ({ isOpen, onClose }) => {
                         % of budget remaining:
                         {total === 0
                           ? calculatePercentage(total, amount)
-                          : 100 - Number(calculatePercentage(total, amount))}
+                          : percentageRemaining.toFixed(2)}
                         %
                       </Text>
 

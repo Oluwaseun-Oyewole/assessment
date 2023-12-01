@@ -1,5 +1,5 @@
 import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { IoMdAdd } from "react-icons/io";
 import Tools from "../../../../assets/svg/Tools.svg";
 import Books from "../../../../assets/svg/books.svg";
@@ -35,7 +35,7 @@ export const ImageUpload = (title: string) => {
 };
 
 const Budget = () => {
-  const { amount, categories, total } = useContext(
+  const { amount, categories, total, setCategoryData } = useContext(
     ContextCreator
   ) as ContextCreatorType;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,7 +83,9 @@ const Budget = () => {
                 fontSize={"large"}
                 fontWeight={"bold"}
               >
-                {`${formatCurrency(Number(total), `\u20A6`)}`}
+                {total > amount
+                  ? `${formatCurrency(Number(0), `\u20A6`)}`
+                  : `${formatCurrency(Number(total), `\u20A6`)}`}
               </Text>
               <span className="text-primaryLight"> /</span>
               <Text
@@ -130,6 +132,12 @@ const Budget = () => {
       content: <ThisMonthData />,
     },
   ];
+
+  useEffect(() => {
+    if (total > amount) {
+      setCategoryData([]);
+    }
+  }, [total, amount]);
 
   return (
     <Box className="max-h-[calc(100vh-4.75rem)] overflow-y-auto scroll-pt-5">

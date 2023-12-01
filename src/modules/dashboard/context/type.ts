@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export type CategoryType = {
   id: number | string;
@@ -16,4 +16,5 @@ export type ContextCreatorType = {
   amount: number;
   total: number;
   updateAmount: (amount: number) => void;
+  setCategoryData: React.Dispatch<React.SetStateAction<CategoryType[]>>;
 };

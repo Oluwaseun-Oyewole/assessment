@@ -50,6 +50,7 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
         createCategory,
         removeCategory,
         total,
+        setCategoryData,
       }}
     >
       {children}
