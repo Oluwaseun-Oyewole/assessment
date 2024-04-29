@@ -7,7 +7,7 @@ const nextConfig = {
       {
         source: "/",
         destination: "/budget",
-        permanent: false,
+        permanent: true,
       },
     ];
   },

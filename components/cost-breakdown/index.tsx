@@ -52,7 +52,7 @@ export const CostBreakdown = () => {
                 {ImageUpload(category.title)}
                 <Text>{category.title}</Text>
                 <Text>{formatCurrency(+category.amount, `\u20A6`)}</Text>
-                <Text fontSize={["0", "10"]}>
+                <Text fontSize={["0", "14"]}>
                   {Number(category.percentage)?.toFixed(2)} %
                 </Text>
                 <Box>
