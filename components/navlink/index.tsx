@@ -16,7 +16,7 @@ const NavLink = () => {
         maxWidth="90%"
         marginX="auto"
         paddingY="130"
-        height="80vh"
+        height="50vh"
       >
         {appRoutes?.map((routes, index) => {
           return (

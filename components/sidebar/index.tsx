@@ -42,7 +42,11 @@ const Sidebar = () => {
               </Box>
               <Link
                 href={routes?.path}
-                className={pathname === routes.path ? "text-blue-500" : ""}
+                className={
+                  pathname === routes.path
+                    ? "text-blue-500"
+                    : "text-gray-400 font-medium"
+                }
               >
                 {routes?.name}
               </Link>

@@ -25,48 +25,50 @@ export default function RootLayout({
       <body>
         <Providers>
           <Toaster position="top-center" />
-          <main>
-            <Flex>
-              <Box
-                width={{
-                  base: "0%",
-                  xl: "18%",
-                }}
-              >
-                <Sidebar />
-              </Box>
-              <Box
-                width={{
-                  base: "100%",
-                  xl: "82%",
-                }}
-                className="bg-gray-50"
-              >
-                <Navigation />
-
+          <ContextProvider>
+            <main>
+              <Flex>
                 <Box
-                  maxWidth="90%"
-                  margin="auto"
-                  paddingTop="20px"
-                  css={{
-                    "&::-webkit-scrollbar": {
-                      width: "0px",
-                    },
-                    "&::-webkit-scrollbar-track": {
-                      width: "0px",
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      background: "transparent",
-                      borderRadius: "24px",
-                    },
+                  width={{
+                    base: "0%",
+                    xl: "16%",
                   }}
                 >
-                  <ContextProvider>{children}</ContextProvider>
+                  <Sidebar />
                 </Box>
-                <BottomNavigation />
-              </Box>
-            </Flex>
-          </main>
+                <Box
+                  width={{
+                    base: "100%",
+                    xl: "84%",
+                  }}
+                  className="bg-gray-50"
+                >
+                  <Navigation />
+
+                  <Box
+                    maxWidth="90%"
+                    margin="auto"
+                    paddingTop="20px"
+                    css={{
+                      "&::-webkit-scrollbar": {
+                        width: "0px",
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        width: "0px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: "transparent",
+                        borderRadius: "24px",
+                      },
+                    }}
+                  >
+                    {children}
+                  </Box>
+                  <BottomNavigation />
+                </Box>
+              </Flex>
+            </main>
+          </ContextProvider>
         </Providers>
       </body>
     </html>

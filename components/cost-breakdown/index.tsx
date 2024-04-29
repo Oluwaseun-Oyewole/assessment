@@ -44,11 +44,17 @@ export const CostBreakdown = () => {
         {categories?.map((category, index) => {
           return (
             <Box key={index} fontSize={["13"]}>
-              <Flex justifyContent="space-between" alignItems="center" gap={8}>
+              <Flex
+                justifyContent={["space-between"]}
+                alignItems={["center"]}
+                gap={8}
+              >
                 {ImageUpload(category.title)}
                 <Text>{category.title}</Text>
                 <Text>{formatCurrency(+category.amount, `\u20A6`)}</Text>
-                <Text>{Number(category.percentage)?.toFixed(2)} %</Text>
+                <Text fontSize={["0", "10"]}>
+                  {Number(category.percentage)?.toFixed(2)} %
+                </Text>
                 <Box>
                   <IoMdRemove
                     className="bg-gray-200 text-gray-500 rounded-full py-2 text-3xl cursor-pointer"

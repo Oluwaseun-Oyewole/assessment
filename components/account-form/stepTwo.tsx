@@ -30,12 +30,6 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
     }
   }, [categories, total]);
 
-  console.log("i total", iTotal);
-  console.log("5rtyui cat", categories);
-  console.log("amount -- ", amount);
-
-  console.log("bhunjimko,lp testung testing", iTotal > amount);
-
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
       .required("Enter amount")
@@ -190,7 +184,7 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                   </Button>
                 </Flex>
                 <Box height={150} overflow="scroll">
-                  <Text>Category Breakdown</Text>
+                  <Text fontSize={["13", "16"]}>Category Breakdown</Text>
                   {categories?.length > 0 && (
                     <Box>
                       <CostBreakdown />
@@ -202,7 +196,7 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     {total > amount ? (
                       <Text>% of budget remaining:0%</Text>
                     ) : (
-                      <Text>
+                      <Text fontSize={["11", "15"]}>
                         % of budget remaining:
                         {total === 0 ? (
                           <>

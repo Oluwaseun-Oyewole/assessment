@@ -1,4 +1,3 @@
-import { theme } from "@/theme";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -66,7 +65,7 @@ const AccountForm = ({ isOpen, onClose }: IAccountType) => {
           fontWeight="medium"
           fontSize="md"
           paddingY="5"
-          color={theme.colors.secondary}
+          className="text-gray-500"
         >
           How much would you like to budget for the month?
         </Text>
@@ -77,7 +76,7 @@ const AccountForm = ({ isOpen, onClose }: IAccountType) => {
           fontWeight="medium"
           fontSize="md"
           marginTop={4}
-          color={theme.colors.secondary}
+          className="text-gray-500"
         >
           How much would you like to spend on each category this month?
         </Text>
@@ -88,7 +87,7 @@ const AccountForm = ({ isOpen, onClose }: IAccountType) => {
           fontWeight="medium"
           fontSize="md"
           marginTop={4}
-          color={theme.colors.secondary}
+          className="text-gray-500"
         >
           How much would you like to budget for the month?
         </Text>

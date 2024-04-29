@@ -22,7 +22,7 @@ const ModalComponent: React.FC<ModalProps> = ({
 }) => {
   const navigate = useRouter();
   return (
-    <Box maxWidth="90%" height={"10px"}>
+    <Box maxWidth="90%">
       <Modal
         isCentered
         isOpen={isOpen}

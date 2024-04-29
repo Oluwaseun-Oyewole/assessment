@@ -10,6 +10,7 @@ import { formatCurrency } from "@/utils/helper";
 import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const Budget = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -17,6 +18,14 @@ const Budget = () => {
   const { push } = useRouter();
   const isModalOpen = searchParams.get("isOpen");
   const { amount } = useBudgetData();
+  const { setCategoryData } = useBudgetData();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const categories = localStorage.getItem("categories");
+      setCategoryData(JSON.parse(categories!));
+    }
+  }, []);
 
   const handleModalOpening = () => {
     const params = new URLSearchParams(searchParams);
