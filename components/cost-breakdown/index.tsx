@@ -29,7 +29,8 @@ export const ImageUpload = (title: string) => {
 };
 
 export const CostBreakdown = () => {
-  const { removeCategory, categories, setCategoryData } = useBudgetData();
+  const { removeCategory, categories, setCategoryData, total, amount } =
+    useBudgetData();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,26 +41,40 @@ export const CostBreakdown = () => {
 
   return (
     <Box height="350" marginTop={6} overflowY="scroll">
-      {categories?.map((category, index) => {
-        return (
-          <Box key={index} fontSize={["13"]}>
-            <Flex justifyContent="space-between" alignItems="center" gap={8}>
-              {ImageUpload(category.title)}
-              <Text>{category.title}</Text>
-              <Text>{formatCurrency(+category.amount, `\u20A6`)}</Text>
-              <Text>{Number(category.percentage)?.toFixed(2)} %</Text>
-              <Box>
-                <IoMdRemove
-                  className="bg-gray-200 text-gray-500 rounded-full py-2 text-3xl cursor-pointer"
-                  onClick={() => {
-                    removeCategory(category?.id);
-                  }}
-                />
+      {total > amount ? (
+        <>
+          <Text fontWeight="light">
+            Your category total has exceeded your budgeted amount
+          </Text>
+        </>
+      ) : (
+        <>
+          {categories?.map((category, index) => {
+            return (
+              <Box key={index} fontSize={["13"]}>
+                <Flex
+                  justifyContent="space-between"
+                  alignItems="center"
+                  gap={8}
+                >
+                  {ImageUpload(category.title)}
+                  <Text>{category.title}</Text>
+                  <Text>{formatCurrency(+category.amount, `\u20A6`)}</Text>
+                  <Text>{Number(category.percentage)?.toFixed(2)} %</Text>
+                  <Box>
+                    <IoMdRemove
+                      className="bg-gray-200 text-gray-500 rounded-full py-2 text-3xl cursor-pointer"
+                      onClick={() => {
+                        removeCategory(category?.id);
+                      }}
+                    />
+                  </Box>
+                </Flex>
               </Box>
-            </Flex>
-          </Box>
-        );
-      })}
+            );
+          })}
+        </>
+      )}
     </Box>
   );
 };

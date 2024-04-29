@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { CategoryType, ContextCreatorType } from "./types";
 
@@ -11,6 +12,12 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const [amount, setAmount] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [categoryData, setCategoryData] = useState<CategoryType[]>(categories);
+  const { refresh } = useRouter();
+
+  const total =
+    categoryData &&
+    categoryData?.reduce((total, item) => total + parseInt(item.amount), 0);
 
   useEffect(() => {
     if (window && typeof window !== "undefined") {
@@ -22,7 +29,16 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, []);
 
-  const [categoryData, setCategoryData] = useState<CategoryType[]>(categories);
+  useEffect(() => {
+    console.log("running here -- ");
+    if (window && typeof window !== "undefined") {
+      if (total > amount) {
+        localStorage.clear();
+        refresh();
+      }
+    }
+  }, [categoryData]);
+
   const updateAmount = (amount: number) => {
     setAmount(amount);
   };
@@ -54,10 +70,6 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     setCategoryData(newArray);
     localStorage.setItem("categories", JSON.stringify(newArray));
   };
-
-  const total =
-    categoryData &&
-    categoryData?.reduce((total, item) => total + parseInt(item.amount), 0);
 
   return (
     <ContextCreator.Provider

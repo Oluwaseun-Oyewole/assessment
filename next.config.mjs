@@ -21,6 +21,6 @@ const withPWA = nextPWA({
   dest: "public",
   register: true,
   // eslint-disable-next-line no-undef
-  //   disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development",
 });
 export default withPWA(nextConfig);

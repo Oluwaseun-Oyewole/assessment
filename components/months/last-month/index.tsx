@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 const LastMonth = () => {
   return (
     <Box>
-      <Text>...</Text>
+      <Text>No budget for this month</Text>
     </Box>
   );
 };

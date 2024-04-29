@@ -18,12 +18,16 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
 
   const [value, setValue] = useState<{ amount: number }>({ amount: 0 });
   const amount = value?.amount !== undefined ? value?.amount : 0;
+
   useEffect(() => {
     if (window && typeof window !== "undefined") {
       const amount = JSON.parse(localStorage.getItem("amount")!);
       setValue(amount);
     }
   }, [categories]);
+
+  console.log("amount", amount);
+  console.log("total -- ", total);
 
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
@@ -143,7 +147,8 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     isDisabled={
                       !formik.isValid ||
                       +formik.values.individualAmount > amount ||
-                      +total + +formik.values.individualAmount > +amount
+                      +total + +formik.values.individualAmount > +amount ||
+                      total > amount
                     }
                     className="disabled:cursor-not-allowed !justify-end !bg-transparent"
                   >
@@ -165,19 +170,23 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                 </Box>
                 <Box marginTop={30} marginBottom={10}>
                   <Flex justifyContent="space-between" alignItems={"center"}>
-                    <Text>
-                      % of budget remaining:
-                      {total === 0 ? (
-                        <>
-                          {amount > 0
-                            ? calculatePercentage(total, amount)
-                            : `0`}
-                        </>
-                      ) : (
-                        percentageRemaining.toFixed(2)
-                      )}
-                      %
-                    </Text>
+                    {total > amount ? (
+                      <Text>% of budget remaining:0%</Text>
+                    ) : (
+                      <Text>
+                        % of budget remaining:
+                        {total === 0 ? (
+                          <>
+                            {amount > 0
+                              ? calculatePercentage(total, amount)
+                              : `0`}
+                          </>
+                        ) : (
+                          percentageRemaining.toFixed(2)
+                        )}
+                        %
+                      </Text>
+                    )}
 
                     <Button
                       onClick={() => {
