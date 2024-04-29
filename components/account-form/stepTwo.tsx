@@ -25,7 +25,6 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
     }
   }, [categories]);
 
-  console.log("amount", amount);
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
       .required("Enter amount")
