@@ -15,7 +15,6 @@ import FormikController from "../formikController";
 
 const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
   const { total, categories, createCategory } = useBudgetData();
-
   const [value, setValue] = useState<{ amount: number }>({ amount: 0 });
   const amount = value?.amount !== undefined ? value?.amount : 0;
   useEffect(() => {
