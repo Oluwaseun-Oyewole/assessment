@@ -30,9 +30,11 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
     }
   }, [categories, total]);
 
-  // console.log("amount", amount);
-  // console.log("total slut -- ", total);
-  // console.log("total -- ", iTotal);
+  console.log("i total", iTotal);
+  console.log("5rtyui cat", categories);
+  console.log("amount -- ", amount);
+
+  console.log("bhunjimko,lp testung testing", iTotal > amount);
 
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
@@ -49,11 +51,13 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
   };
   const percentageRemaining = 100 - +calculatePercentage(total, amount);
 
-  if (typeof window !== "undefined") {
-    if (total > 0) {
-      localStorage.setItem("total", JSON.stringify(total));
+  useEffect(() => {
+    if (window && typeof window !== "undefined") {
+      if (total > 0) {
+        localStorage.setItem("total", JSON.stringify(total));
+      }
     }
-  }
+  }, [categories, total]);
 
   const handleStepTwo = async (
     data: Record<any, string>,
@@ -112,7 +116,6 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     },
                   )}
                 </FormikController>
-
                 <Box marginTop={[3, 0]}>
                   <FormikController
                     control="input"
@@ -124,37 +127,49 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     onBlur={formik.handleBlur}
                   />
                 </Box>
-
                 {+formik.values.individualAmount > amount && (
                   <Text
                     color="red.500"
                     fontSize={["13"]}
                     textAlign="right"
                     marginTop={4}
-                  >{`Amount must be less than ${formatCurrency(
+                  >{`amount must be less than ${formatCurrency(
                     +amount,
                     `\u20A6`,
                   )}`}</Text>
-                )}
-
+                )}{" "}
+                <Flex justifyContent="space-between" alignItems="center">
+                  {iTotal > amount && (
+                    <Text fontSize={["12"]} color="red.400" paddingTop="3">
+                      {` Your total spent has exceeded your available balance of `}
+                      {formatCurrency(+remaining, `\u20A6`)}
+                    </Text>
+                  )}
+                  <Box alignItems="end" textAlign="right">
+                    <Text
+                      fontSize={["13"]}
+                      color={theme.colors.primary}
+                      textAlign="right"
+                      paddingTop="3"
+                    >
+                      {` available balance `}
+                      {formatCurrency(+remaining, `\u20A6`)}
+                    </Text>
+                  </Box>
+                </Flex>
                 {+total + +formik.values.individualAmount > +amount && (
-                  <Box py="5">
+                  <Box py="3">
                     <Flex justifyContent="space-between" alignItems="center">
                       <Text
                         fontSize={["13"]}
                         color="red"
-                      >{`Budget amount exceeded ${formatCurrency(
+                      >{`budget exceeded ${formatCurrency(
                         +amount,
                         `\u20A6`,
                       )}`}</Text>
-                      <Text fontSize={["13"]} color="red">
-                        {` Amount remaining `}
-                        {formatCurrency(+remaining, `\u20A6`)}
-                      </Text>
                     </Flex>
                   </Box>
                 )}
-
                 <Flex justifyContent="flex-end">
                   <Button
                     type="submit"
@@ -163,7 +178,7 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                       !formik.isValid ||
                       +formik.values.individualAmount > amount ||
                       +total + +formik.values.individualAmount > +amount ||
-                      total > amount
+                      iTotal > amount
                     }
                     className="disabled:cursor-not-allowed !justify-end !bg-transparent"
                   >
@@ -174,8 +189,7 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     />
                   </Button>
                 </Flex>
-
-                <Box height={170} overflow="scroll">
+                <Box height={150} overflow="scroll">
                   <Text>Category Breakdown</Text>
                   {categories?.length > 0 && (
                     <Box>
@@ -183,7 +197,7 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
                     </Box>
                   )}
                 </Box>
-                <Box marginTop={30} marginBottom={10}>
+                <Box marginTop={25} marginBottom={7}>
                   <Flex justifyContent="space-between" alignItems={"center"}>
                     {total > amount ? (
                       <Text>% of budget remaining:0%</Text>

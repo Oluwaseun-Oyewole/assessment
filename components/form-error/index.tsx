@@ -7,7 +7,7 @@ type IFormErrorProps = {
 
 const FormError: FC<IFormErrorProps> = ({ error = "" }) => {
   return (
-    <Flex alignItems="center" color="red" justifyContent="end" paddingTop="2">
+    <Flex alignItems="center" color="red" justifyContent="end" paddingTop="1">
       <Text fontSize="small" textAlign="right">
         {error}
       </Text>
