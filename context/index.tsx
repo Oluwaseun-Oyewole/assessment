@@ -27,6 +27,7 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     setAmount(amount);
   };
   const createCategory = (category: CategoryType) => {
+    console.log("testing submit cat -- ", category);
     let catArray = [];
     const categories = localStorage.getItem("categories");
     if (categories) {
@@ -55,10 +56,11 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     localStorage.setItem("categories", JSON.stringify(newArray));
   };
 
-  const total = categoryData?.reduce(
-    (total, item) => total + parseInt(item.amount),
-    0,
-  );
+  console.log(" category data", categoryData);
+
+  const total =
+    categoryData &&
+    categoryData?.reduce((total, item) => total + parseInt(item.amount), 0);
 
   return (
     <ContextCreator.Provider

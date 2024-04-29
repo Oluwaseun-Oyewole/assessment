@@ -1,15 +1,17 @@
+"use client";
 import EmptyBudget from "@/assets/svg/emptyBudget.svg";
 import { ChartComponent } from "@/components/charts";
 import { CostBreakdown } from "@/components/cost-breakdown";
 import { useBudgetData } from "@/context";
 import { theme } from "@/theme";
 import { formatCurrency } from "@/utils/helper";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const ThisMonth = () => {
   const { amount, categories, total } = useBudgetData();
-
+  const { replace } = useRouter();
   const valueArray = categories?.map((element) => {
     return +element?.percentage;
   });
@@ -21,14 +23,16 @@ const ThisMonth = () => {
     <Box marginTop={10}>
       {amount > 0 ? (
         <Box>
-          <Box>
-            <ChartComponent
-              id="chart"
-              type="donut"
-              series={valueArray}
-              label={labelArray}
-            />
-          </Box>
+          {categories?.length > 0 && (
+            <Box>
+              <ChartComponent
+                id="chart"
+                type="donut"
+                series={valueArray}
+                label={labelArray}
+              />
+            </Box>
+          )}
           <Flex direction="column" alignItems="center" justifyContent="center">
             <Text
               fontSize={"large"}
@@ -58,12 +62,29 @@ const ThisMonth = () => {
               </Text>
             </Flex>
           </Flex>
-          <Box marginTop={14}>
-            <Text fontSize={["18", "25"]} fontWeight="medium">
-              Category Breakdown
-            </Text>
-            <CostBreakdown />
-          </Box>
+          {categories?.length > 0 ? (
+            <>
+              <Box marginTop={14}>
+                <Text fontSize={["18", "25"]} fontWeight="medium">
+                  Category Breakdown
+                </Text>
+                <CostBreakdown />
+              </Box>
+            </>
+          ) : (
+            <>
+              <Text>No Category</Text>
+              {amount > 0 && (
+                <Button
+                  onClick={() => replace("budget/?step=2&isOpen=true")}
+                  marginTop={5}
+                  fontWeight="medium"
+                >
+                  create category
+                </Button>
+              )}
+            </>
+          )}
         </Box>
       ) : (
         <Flex

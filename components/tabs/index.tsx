@@ -61,7 +61,6 @@ const TabComponent: React.FC<TabProp> = ({ tabs }) => {
                 top="0"
                 left="0"
                 paddingBottom="5"
-                _active={{ color: "red" }}
               >
                 {tab.label}
                 {tabIndex === index && (

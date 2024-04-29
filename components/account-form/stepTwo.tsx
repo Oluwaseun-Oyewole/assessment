@@ -15,6 +15,7 @@ import FormikController from "../formikController";
 
 const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
   const { total, categories, createCategory } = useBudgetData();
+
   const [value, setValue] = useState<{ amount: number }>({ amount: 0 });
   const amount = value?.amount !== undefined ? value?.amount : 0;
   useEffect(() => {
@@ -22,10 +23,9 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
       const amount = JSON.parse(localStorage.getItem("amount")!);
       setValue(amount);
     }
-  }, []);
+  }, [categories]);
 
-  console.log("tab tab testing testing  -- ", amount);
-
+  console.log("amount", amount);
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
       .required("Enter amount")
