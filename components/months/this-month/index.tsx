@@ -21,7 +21,7 @@ const ThisMonth = () => {
 
   return (
     <Box marginTop={10}>
-      {amount > 0 && total < amount ? (
+      {amount > 0 ? (
         <Box>
           {categories?.length > 0 && (
             <Box>

@@ -3,6 +3,7 @@ import { useBudgetData } from "@/context";
 import { theme } from "@/theme";
 import { categoryValues } from "@/utils/constants";
 import { formatCurrency } from "@/utils/helper";
+import { Toastify } from "@/utils/toast";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
@@ -18,16 +19,20 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
 
   const [value, setValue] = useState<{ amount: number }>({ amount: 0 });
   const amount = value?.amount !== undefined ? value?.amount : 0;
+  const [iTotal, setITotal] = useState(0);
 
   useEffect(() => {
     if (window && typeof window !== "undefined") {
       const amount = JSON.parse(localStorage.getItem("amount")!);
+      const total = JSON.parse(localStorage.getItem("total")!);
+      setITotal(total);
       setValue(amount);
     }
-  }, [categories]);
+  }, [categories, total]);
 
-  console.log("amount", amount);
-  console.log("total -- ", total);
+  // console.log("amount", amount);
+  // console.log("total slut -- ", total);
+  // console.log("total -- ", iTotal);
 
   const stepTwoValidationSchema = Yup.object({
     individualAmount: Yup.number()
@@ -44,19 +49,29 @@ const StepTwo = ({ onClose }: { onClose: VoidFunction }) => {
   };
   const percentageRemaining = 100 - +calculatePercentage(total, amount);
 
+  if (typeof window !== "undefined") {
+    if (total > 0) {
+      localStorage.setItem("total", JSON.stringify(total));
+    }
+  }
+
   const handleStepTwo = async (
     data: Record<any, string>,
     { resetForm }: any,
   ) => {
-    createCategory({
-      id: Math.random(),
-      icon: "",
-      title: data.budgetType,
-      percentage: calculatePercentage(+data.individualAmount, amount),
-      amount: data.individualAmount,
-      total: amount,
-    });
-    resetForm();
+    if (iTotal > amount) return Toastify.error("total exceeds amount");
+    else {
+      createCategory({
+        id: Math.random(),
+        icon: "",
+        title: data.budgetType,
+        percentage: calculatePercentage(+data.individualAmount, amount),
+        amount: data.individualAmount,
+        total: amount,
+      });
+      Toastify.success("new category added");
+      resetForm();
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 import { useBudgetData } from "@/context";
 import { theme } from "@/theme";
+import { Toastify } from "@/utils/toast";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
@@ -22,6 +23,7 @@ const StepOne = () => {
     localStorage.setItem("amount", JSON.stringify(data));
     replace("/budget?step=2&isOpen=true");
     updateAmount(+data.amount);
+    Toastify.success("new amount added");
   };
 
   const localStorageFormValues =

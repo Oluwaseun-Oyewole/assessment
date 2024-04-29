@@ -4,6 +4,7 @@ import Sidebar from "@/components/sidebar";
 import { ContextProvider } from "@/context";
 import { Box, Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import { fonts } from "./fonts";
 import "./globals.css";
 import { Providers } from "./provider";
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={fonts.outfit.variable}>
       <body>
         <Providers>
+          <Toaster position="top-center" />
           <main>
             <Flex>
               <Box

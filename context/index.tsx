@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { Toastify } from "@/utils/toast";
 import React, { useContext, useEffect, useState } from "react";
 import { CategoryType, ContextCreatorType } from "./types";
 
@@ -13,7 +13,6 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
   const [amount, setAmount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [categoryData, setCategoryData] = useState<CategoryType[]>(categories);
-  const { refresh } = useRouter();
 
   const total =
     categoryData &&
@@ -29,16 +28,6 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, []);
 
-  useEffect(() => {
-    console.log("running here -- ");
-    if (window && typeof window !== "undefined") {
-      if (total > amount) {
-        localStorage.clear();
-        refresh();
-      }
-    }
-  }, [categoryData]);
-
   const updateAmount = (amount: number) => {
     setAmount(amount);
   };
@@ -48,19 +37,23 @@ export const ContextProvider: React.FC<React.PropsWithChildren> = ({
     if (categories) {
       catArray = JSON.parse(categories);
     }
-    setCategoryData([
-      ...categoryData,
-      {
-        id: category.id,
-        icon: category.icon,
-        title: category.title,
-        percentage: category.percentage,
-        amount: category.amount,
-        total: category.total,
-      },
-    ]);
-    catArray.push(category);
-    localStorage.setItem("categories", JSON.stringify(catArray));
+    if (amount > total) {
+      setCategoryData([
+        ...categoryData,
+        {
+          id: category.id,
+          icon: category.icon,
+          title: category.title,
+          percentage: category.percentage,
+          amount: category.amount,
+          total: category.total,
+        },
+      ]);
+      catArray.push(category);
+      localStorage.setItem("categories", JSON.stringify(catArray));
+    } else {
+      Toastify.error("total exceeds budgeted amount");
+    }
   };
 
   const removeCategory = (id: number | string) => {
